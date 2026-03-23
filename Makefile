@@ -1,42 +1,45 @@
 
 CC     := gcc
-CFLAGS := -Wall -Wextra $(shell pkg-config --cflags x11)
+CFLAGS := -Wall -Wextra -Iinclude $(shell pkg-config --cflags x11)
 LDFLAGS := $(shell pkg-config --libs x11) -lm
 
-OBJS := main.o App.o Renderer.o Table.o Cell.o Event.o Queen.o Array.o
+SRCS := src/main.c src/App.c src/Renderer.c src/Table.c src/Cell.c src/Event.c src/Queen.c src/Array.c
+OBJS := $(patsubst src/%.c, build/%.o, $(SRCS))
 
-all: xChess
+all: build xChess
 
 xChess: $(OBJS)
 	$(CC) -o $@ $(OBJS) $(LDFLAGS)
 
-main.o: main.c App.h Renderer.h Table.h Event.h
-	$(CC) $(CFLAGS) -c main.c -o main.o
+build:
+	mkdir -p build
 
-App.o: App.c App.h Renderer.h Table.h Event.h
-	$(CC) $(CFLAGS) -c App.c -o App.o
+build/main.o: src/main.c include/App.h include/Renderer.h include/Table.h include/Event.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
-Renderer.o: Renderer.c Renderer.h
-	$(CC) $(CFLAGS) -c Renderer.c -o Renderer.o
+build/App.o: src/App.c include/App.h include/Renderer.h include/Table.h include/Event.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
-Table.o: Table.c Table.h Cell.h Vec2.h
-	$(CC) $(CFLAGS) -c Table.c -o Table.o
+build/Renderer.o: src/Renderer.c include/Renderer.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
-Cell.o: Cell.c Cell.h Vec2.h Queen.h Renderer.h
-	$(CC) $(CFLAGS) -c Cell.c -o Cell.o
+build/Table.o: src/Table.c include/Table.h include/Cell.h include/Vec2.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
-Event.o: Event.c Event.h
-	$(CC) $(CFLAGS) -c Event.c -o Event.o
+build/Cell.o: src/Cell.c include/Cell.h include/Vec2.h include/Queen.h include/Renderer.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
-Queen.o: Queen.c Queen.h Vec2.h
-	$(CC) $(CFLAGS) -c Queen.c -o Queen.o
+build/Event.o: src/Event.c include/Event.h include/App.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
-Array.o: array.c Array.h
-	$(CC) $(CFLAGS) -c array.c -o Array.o
+build/Queen.o: src/Queen.c include/Queen.h include/Vec2.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
+build/Array.o: src/Array.c include/Array.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 
 clean:
-	rm -f *.o xChess
+	rm -rf build/ xChess
 
-.PHONY: all clean
+.PHONY: all clean build
