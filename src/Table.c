@@ -77,7 +77,7 @@ Cell *tableGetCellByQueen(Table *table, Queen *queen) {
   return NULL;
 }
 
-void checkRules(Table *table) {
+void tableCheckRules(Table *table) {
   for (int row = 0; row < 8; row++) {
     for (int col = 0; col < 8; col++) {
       Cell *cell = table->cells[row][col];
@@ -103,7 +103,7 @@ void tableCellSetQueen(Table *table, Cell *cell, Queen *queen) {
   if (cell->queen == NULL) {
     cellSetQueen(cell, queen);
     cellClear(oldCell);
-    checkRules(table);
+    tableCheckRules(table);
   } else {
     cellSetQueen(oldCell, queen);
   }

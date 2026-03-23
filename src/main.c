@@ -30,7 +30,8 @@ int main(int argc, char *argv[]) {
         }
     }
     tableFill(app->table, possition);
-
+    tableCheckRules(app->table);
+    
     appLoopStart(app);
     return 0;
 }

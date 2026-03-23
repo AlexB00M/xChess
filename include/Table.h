@@ -20,3 +20,4 @@ Cell *tableGetCellByQueen(Table *table, Queen *queen);
 void tableDraw(Renderer *renderer, Table *table);
 void tableCellSetQueen(Table *table, Cell *cell, Queen *queen);
 void tableFill(Table *table, char possition[8][8]);
+void tableCheckRules(Table *table);
