@@ -4,6 +4,7 @@
 
 #include "Vec2.h"
 #include "Queen.h"
+#include "Renderer.h"
 
 typedef enum {
   WHITE,
@@ -16,10 +17,13 @@ typedef struct Cell
   Vec2 position;
   CellType type;
   float size;
+  int dangered;
 } Cell;
 
-Cell *cellCreate(Vec2 position, float size, Queen *queen);
+Cell *cellCreate(Vec2 position, float size, CellType type, Queen *queen);
 
 void cellSetQueen(Cell *cell, Queen *queen);
 
-void drawCell(Cell *cell);
+void cellDraw(Renderer *renderer, Cell *cell);
+void cellClear(Cell *cell);
+void cellFree(Cell *cell);

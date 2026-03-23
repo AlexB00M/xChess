@@ -1,15 +1,14 @@
 #include "App.h"
 
-typedef struct AppInitParams {
-  int cellSize;
-} AppInitParams;
-
 AppInitParams *AppInitParamsParse(int argc, char *argv[]);
 
 App *appCreate(int argc, char *argv[], const char *windowTitle){
   App *app = (App *)malloc(sizeof(App));
   app->running = 1;
-  app->renderer = rendererCreate(windowTitle);
+  app->initParams = AppInitParamsParse(argc, argv);
+  app->table = tableCreate((Vec2){0, 0}, app->initParams->cellSize);
+  app->renderer = rendererCreate(windowTitle, app->table->cellSize * 8, app->table->cellSize * 8);
+  app->handledQueen = NULL;
   if (!app->renderer) {
     free(app);
     return NULL;
@@ -22,6 +21,7 @@ void appLoopStart(App *app) {
   while (app->running) {
     XNextEvent(app->renderer->display, &event);
     eventHandle(app, event);
+    tableDraw(app->renderer, app->table);
   }
 }
 

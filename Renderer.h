@@ -11,7 +11,9 @@ typedef struct Renderer {
   GC gc;
   Atom wmDelete;
   int screen;
+  unsigned long colorGreen;
+  unsigned long colorRed;
 } Renderer;
 
-Renderer *rendererCreate(const char *windowTitle);
+Renderer *rendererCreate(const char *windowTitle, int width, int height);
 void rendererDestroy(Renderer *renderer);

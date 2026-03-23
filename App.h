@@ -5,11 +5,19 @@
 
 #include "Renderer.h"
 #include "Event.h"
+#include "Table.h"
+
+typedef struct AppInitParams {
+  int cellSize;
+} AppInitParams;
 
 typedef struct App
 {
   int running;
   Renderer *renderer;
+  AppInitParams *initParams;
+  Table *table;
+  Queen *handledQueen;
 } App;
 
 App *appCreate(int argc, char *argv[], const char *windowTitle);

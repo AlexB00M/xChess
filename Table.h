@@ -2,6 +2,8 @@
 
 #include "Cell.h"
 #include "Vec2.h"
+#include "Renderer.h"
+#include "Queen.h"
 
 typedef struct Table {
   Vec2 position;
@@ -11,6 +13,10 @@ typedef struct Table {
 
 Table *tableCreate(Vec2 position, float cellSize);
 
-Cell *getCell(Table *table, Vec2 mousePos);
+Cell *tableGetCell(Table *table, Vec2 mousePos);
+Queen *tableGetQueen(Table *table, Vec2 mousePos);
+Cell *tableGetCellByQueen(Table *table, Queen *queen);
 
-void  drawTable(Table *table);
+void tableDraw(Renderer *renderer, Table *table);
+void tableCellSetQueen(Table *table, Cell *cell, Queen *queen);
+void tableFill(Table *table, char possition[8][8]);
